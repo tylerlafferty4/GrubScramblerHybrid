@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Settings
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="background">
+  <ion-list>
+    <ion-list-header>
+      Fast Food
+    </ion-list-header>
+    <ion-item *ngFor="let restaurant of fastFood">
+      {{ restaurant }}
+      <button ion-button outline item-end icon-right (click)="removeItem('Fast Food', restaurant)">Remove</button>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Delivery
+    </ion-list-header>
+    <ion-item *ngFor="let restaurant of delivery">
+      {{ restaurant }}
+      <button ion-button outline item-end icon-right>Remove</button>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Breakfast
+    </ion-list-header>
+    <ion-item *ngFor="let restaurant of breakfast">
+      {{ restaurant }}
+      <button ion-button outline item-end icon-right>Remove</button>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Fancy
+    </ion-list-header>
+    <ion-item *ngFor="let restaurant of fancy">
+      {{ restaurant }}
+      <button ion-button outline item-end icon-right>Remove</button>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Bar
+    </ion-list-header>
+    <ion-item *ngFor="let restaurant of bar">
+      {{ restaurant }}
+      <button ion-button outline item-end icon-right>Remove</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

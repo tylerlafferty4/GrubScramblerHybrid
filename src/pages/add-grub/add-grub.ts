@@ -1,38 +1,37 @@
 import { Component } from '@angular/core';
-import { ActionSheetController, NavController, ToastController } from 'ionic-angular';
-import { AddGrubPage } from '../add-grub/add-grub'
-import { SettingsPage } from '../settings/settings'
+import { Platform, ActionSheetController, NavController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-add-grub',
+  templateUrl: 'add-grub.html'
 })
-export class HomePage {
 
+export class AddGrubPage {
   categoryText: string;
-  chosenRestaurant: string;
-  restaurants: Array<string>;
-  buttonColor: string = '#969191'
+  restaurantName: string;
+  restaurants: Array<string> = [];
+  buttonColor: string = '#49a558' //this.buttonColor = '#49a558';
 
   constructor(
+    public platform: Platform,
     public nav: NavController,
     public actionsheetCtrl: ActionSheetController,
     public toastCtrl: ToastController,
     private storage: Storage
   ) {
-    this.categoryText = "Select a Category"
+    this.categoryText = "Select a Category";
   }
 
   openMenu() {
     let actionSheet = this.actionsheetCtrl.create({
+      title: 'Albums',
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {
           text: 'Fast Food',
           icon: null,
           handler: () => {
-            this.chosenRestaurant = '';
             this.categoryText = 'Fast Food';
             this.loadSavedRestaurants();
           }
@@ -41,7 +40,6 @@ export class HomePage {
           text: 'Delivery',
           icon: null,
           handler: () => {
-            this.chosenRestaurant = '';
             this.categoryText = 'Delivery';
             this.loadSavedRestaurants();
           }
@@ -50,7 +48,6 @@ export class HomePage {
           text: 'Breakfast',
           icon: null,
           handler: () => {
-            this.chosenRestaurant = '';
             this.categoryText = 'Breakfast';
             this.loadSavedRestaurants();
           }
@@ -59,7 +56,6 @@ export class HomePage {
           text: 'Bar',
           icon: null,
           handler: () => {
-            this.chosenRestaurant = '';
             this.categoryText = 'Bar';
             this.loadSavedRestaurants();
           }
@@ -68,7 +64,6 @@ export class HomePage {
           text: 'Fancy',
           icon: null,
           handler: () => {
-            this.chosenRestaurant = '';
             this.categoryText = 'Fancy';
             this.loadSavedRestaurants();
           }
@@ -89,35 +84,44 @@ export class HomePage {
   loadSavedRestaurants() {
     this.storage.get(this.categoryText).then((val) => {
       if (val == null) {
-        this.restaurants = null;
-        this.buttonColor = '#969191';
+        this.restaurants = [];
       } else {
         this.restaurants = val;
-        this.buttonColor = '#49a558';
       }
     });
   }
 
-  scramble() {
-    if (this.restaurants == null) {
+  addRestaurant(event) {
+    if (this.categoryText == "Select a Category") {
       let toast = this.toastCtrl.create({
-        message: 'You do not have any restaurants in this category',
+        message: 'Please select a category',
         duration: 3000,
-        position: 'bottom'
+        position: 'top'
       });
       toast.present();
       return;
     }
 
-    this.chosenRestaurant = this.restaurants[Math.floor(Math.random()*this.restaurants.length)];
-  }
+    if (this.restaurantName == null) {
+      let toast = this.toastCtrl.create({
+        message: 'Please enter a restaurant name',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+      return;
+    }
 
-  addGrub() {
-    this.nav.push(AddGrubPage);
+    this.storage.get(this.categoryText).then((val) => {
+      if (val == null) {
+        this.restaurants = [];
+      } else {
+        this.restaurants = val;
+      }
+    });
+    this.restaurants.push(this.restaurantName);
+    this.storage.set(this.categoryText, this.restaurants);
+    this.loadSavedRestaurants();
+    this.restaurantName = "";
   }
-
-  settings() {
-    this.nav.push(SettingsPage);
-  }
-
 }

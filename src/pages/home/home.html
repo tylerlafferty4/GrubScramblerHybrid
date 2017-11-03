@@ -1,14 +1,30 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Grub Scrambler
     </ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="addGrub()">
+        Add Grub
+        <!-- <ion-icon name="settings"></ion-icon> -->
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="settings()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content padding class="background">
+  <div class="select-category" text-center>
+    <button ion-button color="light" round (click)="openMenu()">{{categoryText}}</button>
+  </div>
+  <div text-center>
+    <button ion-button [ngStyle]="{'background-color': buttonColor}" round (click)="scramble()">Scramble</button>
+  </div>
+  <div class="restaurant-label" text-center>
+    <h3>{{chosenRestaurant}}</h3>
+  </div>
 </ion-content>
