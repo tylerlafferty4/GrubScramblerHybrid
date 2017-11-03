@@ -25,7 +25,7 @@ export class AddGrubPage {
 
   openMenu() {
     let actionSheet = this.actionsheetCtrl.create({
-      title: 'Albums',
+      title: 'Categories',
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {

@@ -24,8 +24,13 @@ export class HomePage {
     this.categoryText = "Select a Category"
   }
 
+  ionViewWillLeave() {
+    this.chosenRestaurant = "";
+  }
+
   openMenu() {
     let actionSheet = this.actionsheetCtrl.create({
+      title: 'Categories',
       cssClass: 'action-sheets-basic-page',
       buttons: [
         {
