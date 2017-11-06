@@ -9,9 +9,10 @@ import { Storage } from '@ionic/storage';
 
 export class AddGrubPage {
   categoryText: string;
-  restaurantName: string;
+  restaurantName: string = '';
   restaurants: Array<string> = [];
-  buttonColor: string = '#49a558' //this.buttonColor = '#49a558';
+  buttonColor: string = '#969191';
+  DEFAULT_CATEGORY_TEXT = 'Select a Category';
 
   constructor(
     public platform: Platform,
@@ -20,7 +21,7 @@ export class AddGrubPage {
     public toastCtrl: ToastController,
     private storage: Storage
   ) {
-    this.categoryText = "Select a Category";
+    this.categoryText = this.DEFAULT_CATEGORY_TEXT;
   }
 
   openMenu() {
@@ -34,6 +35,7 @@ export class AddGrubPage {
           handler: () => {
             this.categoryText = 'Fast Food';
             this.loadSavedRestaurants();
+            this.setAddButtonColor();
           }
         },
         {
@@ -42,6 +44,7 @@ export class AddGrubPage {
           handler: () => {
             this.categoryText = 'Delivery';
             this.loadSavedRestaurants();
+            this.setAddButtonColor();
           }
         },
         {
@@ -50,6 +53,7 @@ export class AddGrubPage {
           handler: () => {
             this.categoryText = 'Breakfast';
             this.loadSavedRestaurants();
+            this.setAddButtonColor();
           }
         },
         {
@@ -58,6 +62,7 @@ export class AddGrubPage {
           handler: () => {
             this.categoryText = 'Bar';
             this.loadSavedRestaurants();
+            this.setAddButtonColor();
           }
         },
         {
@@ -66,6 +71,7 @@ export class AddGrubPage {
           handler: () => {
             this.categoryText = 'Fancy';
             this.loadSavedRestaurants();
+            this.setAddButtonColor();
           }
         },
         {
@@ -81,6 +87,18 @@ export class AddGrubPage {
     actionSheet.present();
   }
 
+  onTextChange() {
+    this.setAddButtonColor();
+  }
+
+  setAddButtonColor() {
+    if (this.restaurantName != '' && this.categoryText != this.DEFAULT_CATEGORY_TEXT) {
+      this.buttonColor = '#49a558';
+    } else {
+      this.buttonColor = '#969191';
+    }
+  }
+
   loadSavedRestaurants() {
     this.storage.get(this.categoryText).then((val) => {
       if (val == null) {
@@ -92,7 +110,7 @@ export class AddGrubPage {
   }
 
   addRestaurant(event) {
-    if (this.categoryText == "Select a Category") {
+    if (this.categoryText == this.DEFAULT_CATEGORY_TEXT) {
       let toast = this.toastCtrl.create({
         message: 'Please select a category',
         duration: 3000,
@@ -102,7 +120,7 @@ export class AddGrubPage {
       return;
     }
 
-    if (this.restaurantName == null) {
+    if (this.restaurantName == '') {
       let toast = this.toastCtrl.create({
         message: 'Please enter a restaurant name',
         duration: 3000,
