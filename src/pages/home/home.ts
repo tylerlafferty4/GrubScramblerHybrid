@@ -118,7 +118,9 @@ export class HomePage {
   }
 
   addGrub() {
-    this.nav.push(AddGrubPage);
+    this.nav.push(AddGrubPage, {
+      category: this.categoryText
+    });
   }
 
   settings() {

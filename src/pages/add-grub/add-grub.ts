@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, ActionSheetController, NavController, ToastController } from 'ionic-angular';
+import { Platform, ActionSheetController, NavController, ToastController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -17,6 +17,7 @@ export class AddGrubPage {
   constructor(
     public platform: Platform,
     public nav: NavController,
+    public navParams: NavParams,
     public actionsheetCtrl: ActionSheetController,
     public toastCtrl: ToastController,
     private storage: Storage
@@ -139,7 +140,8 @@ export class AddGrubPage {
     });
     this.restaurants.push(this.restaurantName);
     this.storage.set(this.categoryText, this.restaurants);
-    this.loadSavedRestaurants();
     this.restaurantName = "";
+    this.loadSavedRestaurants();
+    this.setAddButtonColor();
   }
 }
